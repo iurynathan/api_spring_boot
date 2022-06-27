@@ -47,7 +47,11 @@ public class JWTSettings extends WebSecurityConfigurerAdapter {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
     CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-    source.registerCorsConfiguration("/**", corsConfiguration);
+    corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addAllowedOrigin("http://localhost:3000");
+		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedMethod("*");
+    source.registerCorsConfiguration("*", corsConfiguration);
 
     return source;
   }
