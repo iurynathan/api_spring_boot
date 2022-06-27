@@ -1,5 +1,7 @@
 package com.api.energymarket.security;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -39,7 +41,11 @@ public class JWTSettings extends WebSecurityConfigurerAdapter {
     .and()
     .addFilter(new JWTAuthenticationFilter(authenticationManager()))
     .addFilter(new JWTValidationFilter(authenticationManager()))
-    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    .and()
+    .cors()
+    .and()
+    .csrf().disable();
   }
 
   @Bean
@@ -47,10 +53,6 @@ public class JWTSettings extends WebSecurityConfigurerAdapter {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
     CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-    corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOrigin("http://localhost:3000/login");
-		corsConfiguration.addAllowedHeader("*");
-		corsConfiguration.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", corsConfiguration);
 
     return source;
